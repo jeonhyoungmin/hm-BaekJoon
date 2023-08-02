@@ -7,7 +7,6 @@ import java.util.StringTokenizer;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
@@ -30,7 +29,7 @@ public class Main {
 		
 		while(!bridge.isEmpty()) {
 			
-			int outTruck = bridge.pop(); // 빠져나가는 트럭의 무게
+			int outTruck = bridge.poll(); // 빠져나가는 트럭의 무게
 			truckOnBridge -= outTruck;
 			time ++;
 			
@@ -40,7 +39,7 @@ public class Main {
 				if(truckOnBridge + newTruck > L) { // 최대 하중을 넘기면
 					bridge.offer(0);
 				} else { // 최대 하중을 넘기지 않으면
-					bridge.offer(truck.pop());
+					bridge.offer(truck.poll());
 					truckOnBridge += newTruck;
 				}
 		
