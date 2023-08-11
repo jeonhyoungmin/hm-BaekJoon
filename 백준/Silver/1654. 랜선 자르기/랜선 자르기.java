@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 public class Main {
 	private static boolean isPossible(int[] arr, long m, int N) {
 		int sum = 0;
-		for(int i = 0; i<arr.length; i++) {
+		for(int i = arr.length - 1; i>=0; i--) {
 			sum += arr[i]/m;
 			if(sum >= N) return true;
 		}
