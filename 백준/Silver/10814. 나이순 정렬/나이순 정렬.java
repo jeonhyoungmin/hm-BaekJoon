@@ -29,12 +29,19 @@ public class Main {
 			member[i] = new Member(Integer.parseInt(st.nextToken()), st.nextToken(), i);
 		}
 		
-		Arrays.sort(member, new Comparator<Member>() {
-			public int compare(Member m1, Member m2) {
-				if(m1.age == m2.age)
-					return m1.idx - m2.idx;
-				return m1.age - m2.age;
-			}
+//		Arrays.sort(member, new Comparator<Member>() {
+//			public int compare(Member m1, Member m2) {
+//				if(m1.age == m2.age)
+//					return m1.idx - m2.idx; // Tim sort 정렬이기 때문에, 자동으로 등록순으로 정렬한다. 제외해도 됨.
+//				return m1.age - m2.age;
+//			}
+//		});
+		
+		//Lambda
+		Arrays.sort(member, (m1, m2) -> {
+			if(m1.age == m2.age)
+				return m1.idx - m2.idx; // Tim sort 정렬이기 때문에, 자동으로 등록순으로 정렬한다. 제외해도 됨.
+			return m1.age - m2.age;
 		});
 		
 		for(int i = 0; i<N; i++)
