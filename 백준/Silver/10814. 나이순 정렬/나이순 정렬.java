@@ -2,12 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Main {
-	public class Member implements Comparable<Member>{
+	public static class Member implements Comparable<Member>{
 		int age;
 		String name;
 		
@@ -27,11 +25,10 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
 		
-		Main main = new Main();
 		Member[] member = new Member[N];
 		for(int i = 0; i<N; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			member[i] = main.new Member(Integer.parseInt(st.nextToken()), st.nextToken());
+			member[i] = new Member(Integer.parseInt(st.nextToken()), st.nextToken());
 		}
 		
 		Arrays.sort(member);
