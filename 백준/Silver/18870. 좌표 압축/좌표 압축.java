@@ -18,7 +18,7 @@ public class Main {
 		}
 		
 		// 2 4 -10 4 -9
-		// [-10, 2] [-9, 4] [2, 0] [4, 1] [4, 3]
+		// [[-10, 2], [-9, 4], [2, 0], [4, 1], [4, 3]]
 //		Arrays.sort(arr, new Comparator<int[]>() {
 //			@Override
 //			public int compare(int[] o1, int[] o2) {
@@ -33,10 +33,8 @@ public class Main {
 		int idx = 0;
 		ans[arr[0][1]] = idx;
 		for(int i = 1; i<N; i++) {
-			if(arr[i][0] != arr[i-1][0]) {
-				idx++;
-				ans[arr[i][1]] = idx;
-			} else ans[arr[i][1]] = idx; 
+			if(arr[i][0] != arr[i-1][0]) idx++;
+			ans[arr[i][1]] = idx;
 		}
 
 		StringBuilder sb = new StringBuilder();
