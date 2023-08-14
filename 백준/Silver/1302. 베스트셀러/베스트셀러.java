@@ -1,29 +1,32 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
 		
-		Map<String, Integer> map = new TreeMap<>();
+		Map<String, Integer> books = new HashMap<>();
 		for(int i = 0; i<N; i++) {
 			String book = br.readLine();
-			if(map.containsKey(book)) map.put(book, map.get(book) + 1);
-			else map.put(book, 1);
+			books.put(book, books.getOrDefault(book, 0) + 1);
+		}
+
+		String topTitle = "";
+		int maxCount = 0;
+		for(Map.Entry<String, Integer> book : books.entrySet()) {
+			String title = book.getKey();
+			int count = book.getValue();
+			if(count > maxCount || (count == maxCount && title.compareTo(topTitle)<0)) {
+				maxCount = count;
+				topTitle = title;
+			}
 		}
 		
-		Set<String> set = map.keySet();
-		String[] books = set.toArray(new String[set.size()]);
-		Arrays.sort(books, (b1, b2) -> {
-			return map.get(b2) - map.get(b1);
-		});
+		System.out.println(topTitle);
 		
-		System.out.println(books[0]);
 	}
 }
