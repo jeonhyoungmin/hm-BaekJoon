@@ -1,8 +1,11 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 public class Main {
 	
@@ -10,35 +13,25 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
 		
-		int[][] arr = new int[N][2];
+		int[] arr = new int[N];
+		Set<Integer> set = new TreeSet<>();
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i = 0; i<N; i++) {
-			arr[i][0] = Integer.parseInt(st.nextToken());
-			arr[i][1] = i;
+			int data = Integer.parseInt(st.nextToken());
+			arr[i] = data;
+			set.add(data);
 		}
 		
-		// 2 4 -10 4 -9
-		// [[-10, 2], [-9, 4], [2, 0], [4, 1], [4, 3]]
-//		Arrays.sort(arr, new Comparator<int[]>() {
-//			@Override
-//			public int compare(int[] o1, int[] o2) {
-//				return o1[0] - o2[0];
-//			}
-//		});
-		
-		//lambda
-		Arrays.sort(arr, (o1, o2) -> o1[0] - o2[0]);
-		
-		int[] ans = new int[N];
+		Map<Integer, Integer> map = new HashMap<>();
 		int idx = 0;
-		ans[arr[0][1]] = idx;
-		for(int i = 1; i<N; i++) {
-			if(arr[i][0] != arr[i-1][0]) idx++;
-			ans[arr[i][1]] = idx;
+		for(int i : set) {
+			map.put(i, idx);
+			idx++;
 		}
-
+		
 		StringBuilder sb = new StringBuilder();
-		for(int i : ans) sb.append(i).append(" ");
+		for(int i = 0; i<N; i++)
+			sb.append(map.get(arr[i])).append(" ");
 		
 		System.out.println(sb);
 	}
