@@ -40,7 +40,7 @@ public class Main {
 		Node node = null;
 		while(true) {
 			String data = br.readLine();
-			if(data == null || data.equals("")) break;
+			if(data == null) break;
 			node = insert(node, Integer.parseInt(data));
 		}
 		
