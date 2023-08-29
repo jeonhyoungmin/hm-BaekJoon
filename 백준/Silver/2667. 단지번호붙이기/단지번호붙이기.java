@@ -3,13 +3,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.stream.Stream;
 
 public class Main {
 	
 	static int[][] direction = { {-1,0}, {1,0}, {0,-1}, {0,1} }; // 왼 오 아 위
-	static int size = 0;
 
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -36,9 +37,7 @@ public class Main {
 		for(int i = 0; i<N; i++) {
 			for(int j = 0; j<N; j++) {
 				if(map[i][j] == 1 && !visited[i][j]) {
-					size = 1;
-					dfs(N, map, visited, i, j);
-					result.add(size);
+					result.add(bfs(N, map, visited, i, j));
 				}
 			}
 		}
@@ -48,18 +47,28 @@ public class Main {
 		result.forEach(System.out::println);
 	}
 	
-	private static void dfs(int N, int[][] map, boolean[][] visited, int x, int y) {
+	private static int bfs(int N, int[][] map, boolean[][] visited, int x, int y) {
+		int size = 1;
+		
+		Queue<int[]> queue = new LinkedList<>();
+		queue.add(new int[] {x, y});
 		visited[x][y] = true;
 		
-		for(int i = 0; i<direction.length; i++) {
-			int nX = x + direction[i][0];
-			int nY = y + direction[i][1];
+		while(!queue.isEmpty()) {
+			int[] coordinate = queue.poll();
 			
-			if(nX >= 0 && nY >= 0 && nX < N && nY < N &&
-					map[nX][nY] == 1 && !visited[nX][nY]) {
-				size++;
-				dfs(N, map, visited, nX, nY);
+			for(int i = 0; i<direction.length; i++) {
+				int nX = coordinate[0] + direction[i][0];
+				int nY = coordinate[1] + direction[i][1];
+				
+				if(nX >= 0 && nY >= 0 && nX < N && nY < N &&
+						map[nX][nY] == 1 && !visited[nX][nY]) {
+					size++;
+					visited[nX][nY] = true;
+					queue.add(new int[] {nX, nY});
+				}
 			}
 		}
+		return size;
 	}
 }
