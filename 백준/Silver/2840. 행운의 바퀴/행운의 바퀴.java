@@ -20,13 +20,13 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			int rotate = Integer.parseInt(st.nextToken());
 			char alphabet = st.nextToken().charAt(0);
-			index = ((index - rotate) % N + N) % N;
+			
+			index = (index + rotate) % N;
 			
 			if(circle[index] != '?' && circle[index] != alphabet) {
 				System.out.println("!");
 				return;
 			}
-			
 			circle[index] = alphabet;
 		}
 		
@@ -42,7 +42,13 @@ public class Main {
 			}
 		}
 		
-		for (int i = 0; i < N; i++) System.out.print(circle[(index + i) % N]);
+		for (int i = 0; i < N; i++) {
+			index = (index) % N;
+			System.out.print(circle[index]);
+			if (index == 0)
+				index = circle.length;
+			index--;
+		}
 		
 	}
 }
