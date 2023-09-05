@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -13,24 +14,25 @@ public class Main {
 		int K = Integer.parseInt(st.nextToken());
 		
 		char[] circle = new char[N];
+		Arrays.fill(circle, '?');
 		int index = 0;
 		for(int i=0; i<K; i++) {
 			st = new StringTokenizer(br.readLine());
 			int rotate = Integer.parseInt(st.nextToken());
 			char alphabet = st.nextToken().charAt(0);
+			index = ((index - rotate) % N + N) % N;
 			
-			index = (index + rotate) % N;
-			
-			if(circle[index] != 0 && circle[index] != alphabet) {
+			if(circle[index] != '?' && circle[index] != alphabet) {
 				System.out.println("!");
 				return;
 			}
+			
 			circle[index] = alphabet;
 		}
 		
 		boolean[] isExist = new boolean[26];
 		for(int i=0; i<N; i++) {
-			if(circle[i] == 0) continue;
+			if(circle[i] == '?') continue;
 			else {
 				if(isExist[circle[i] - 'A']) {
 					System.out.println("!");
@@ -40,16 +42,7 @@ public class Main {
 			}
 		}
 		
-		for (int i = 0; i < N; i++) {
-			index = (index) % N;
-			if (circle[index] == 0)
-				System.out.print("?");
-			else
-				System.out.print(circle[index]);
-			if (index == 0)
-				index = circle.length;
-			index--;
-		}
+		for (int i = 0; i < N; i++) System.out.print(circle[(index + i) % N]);
 		
 	}
 }
