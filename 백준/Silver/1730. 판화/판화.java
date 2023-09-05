@@ -1,13 +1,14 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		Scanner sc = new Scanner(System.in);
-		
-		int N = sc.nextInt();
-		String command = sc.hasNext() ? sc.next() : "";
+		int N = Integer.parseInt(br.readLine());
+		String command = br.readLine();
 		
 		boolean[][] vertical = new boolean[N][N];
 		boolean[][] horizantal = new boolean[N][N];
