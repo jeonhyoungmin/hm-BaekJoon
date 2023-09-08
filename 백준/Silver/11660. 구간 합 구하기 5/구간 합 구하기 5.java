@@ -24,12 +24,12 @@ public class Main {
 			int result = 0;
 			st = new StringTokenizer(br.readLine());
 			int x1 = Integer.parseInt(st.nextToken());
-			int x2 = Integer.parseInt(st.nextToken());
 			int y1 = Integer.parseInt(st.nextToken());
+			int x2 = Integer.parseInt(st.nextToken());
 			int y2 = Integer.parseInt(st.nextToken());
 			
-			for(int j=x1; j<=y1; j++) {
-				result += acc[j][y2] - acc[j][x2-1];
+			for(int j=x1; j<=x2; j++) {
+				result += acc[j][y2] - acc[j][y1-1];
 			}
 			sb.append(result + "\n");
 		}
