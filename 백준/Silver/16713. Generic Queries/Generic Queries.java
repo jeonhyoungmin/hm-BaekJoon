@@ -17,19 +17,15 @@ public class Main {
 			acc[i] = Integer.parseInt(st.nextToken()) ^ acc[i - 1];
 		}
 		
-		st = new StringTokenizer(br.readLine());
-		int s = Integer.parseInt(st.nextToken());
-		int l = Integer.parseInt(st.nextToken());
-		int pre = acc[l] ^ acc[s-1];
-		for(int i=0; i<Q-1; i++) {
+		int ans = 0;
+		for(int i=0; i<Q; i++) {
 			st = new StringTokenizer(br.readLine());
-			s = Integer.parseInt(st.nextToken());
-			l = Integer.parseInt(st.nextToken());
+			int s = Integer.parseInt(st.nextToken());
+			int l = Integer.parseInt(st.nextToken());
 			
-			int now = acc[l] ^ acc[s-1];
-			pre = pre ^ now;
+			ans ^= acc[l] ^ acc[s-1]; 
 		}
 		
-		System.out.println(pre);
+		System.out.println(ans);
 	}
 }
