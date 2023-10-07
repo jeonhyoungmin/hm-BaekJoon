@@ -1,32 +1,39 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-class Main
-{
-    public static void main (String[] args) {
-        Scanner sc = new Scanner(System.in);
+public class Main {
+	
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int MaxB = Integer.parseInt(st.nextToken()); // B개 이하
+		int MinW = Integer.parseInt(st.nextToken()); // W개 이상
+		
+		char[] arr = br.readLine().toCharArray();
+		int ans = 0;
+		
+		int countB = 0;
+		int countW = 0;
+		int pairIndex = 0;
 
-        int N = sc.nextInt();
-        int B = sc.nextInt();
-        int W = sc.nextInt();
-        char[] color = sc.next().toCharArray();
-
-        int currentWhiteCount = 0;
-        int currentBlackCount = 0;
-        int ansLength = 0;
-        int nextIndex = 0;
-        for (int i = 0; i < N; i++) {
-            while (nextIndex < N) {
-                if (currentBlackCount == B && color[nextIndex] == 'B') break;
-                if (color[nextIndex++] == 'W') currentWhiteCount++;
-                else currentBlackCount++;
-            }
-            if (currentWhiteCount >= W)
-                ansLength = Math.max(ansLength, nextIndex - i);
-
-            if (color[i] == 'W') currentWhiteCount--;
-            else currentBlackCount--;
-        }
-
-        System.out.println(ansLength);
-    }
+		for(int i=0; i<N; i++) {
+			while(pairIndex < N) {
+				if(countB == MaxB && arr[pairIndex] == 'B') break;
+				if(arr[pairIndex++] == 'W') countW++;
+				else countB++;
+			}
+			
+			if(countW >= MinW) {
+				ans = Math.max(ans, pairIndex - i);
+			}
+			
+			if(arr[i] == 'W') countW--;
+			else countB--;
+		}
+		
+		System.out.println(ans);
+	}
 }
