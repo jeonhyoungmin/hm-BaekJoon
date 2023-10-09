@@ -14,13 +14,16 @@ class Main
             isBroken[idx] = true;
         }
 
-        int[] accBroken = new int[N + 1];
-        for (int i = 1; i <= N; i++)
-            accBroken[i] = accBroken[i - 1] + (isBroken[i] ? 1 : 0);
+        int currentBrokenCount = 0;
+        for (int i = 1; i <= K; i++)
+            if (isBroken[i]) currentBrokenCount++;
 
-        int ans = K;
-        for (int i = 1; i <= N - K + 1; i++)
-            ans = Math.min(ans, accBroken[i + K - 1] - accBroken[i - 1]);
+        int ans = currentBrokenCount;
+        for (int i = 2; i <= N - K + 1; i++) {
+            if (isBroken[i - 1]) currentBrokenCount--;
+            if (isBroken[i + K - 1]) currentBrokenCount++;
+            ans = Math.min(ans, currentBrokenCount);
+        }
         System.out.println(ans);
     }
 }
