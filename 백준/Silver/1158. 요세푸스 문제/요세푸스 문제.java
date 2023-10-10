@@ -9,8 +9,7 @@ class Main
         int N = sc.nextInt();
         int K = sc.nextInt();
 
-        List<Integer> list = new ArrayList<>();
-        // List<Integer> list = new LinkedList<>();
+        SimpleArrayList<Integer> list = new SimpleArrayList<>(N);
         for (int i = 1; i <= N; i++)
             list.add(i);
 
@@ -25,5 +24,39 @@ class Main
         System.out.println("<" + Arrays.stream(ans)
                 .mapToObj(String::valueOf)
                 .collect(Collectors.joining(", ")) + ">");
+    }
+}
+
+class SimpleArrayList<E> {
+    private int size = 0;
+    private Object[] data;
+
+    public SimpleArrayList(int initialCapacity) {
+        data = new Object[initialCapacity];
+    }
+
+    public void add(E element) {
+        if (size == data.length)
+            growCapacity();
+        data[size++] = element;
+    }
+
+    private void growCapacity() {
+        int newCapacity = data.length + (data.length >> 1);
+        data = Arrays.copyOf(data, newCapacity);
+    }
+
+    public E remove(int idx) {
+        if (idx < 0 || idx >= size)
+            throw new IndexOutOfBoundsException("Index: " + idx + ", Size " + size);
+        E deletedItem = (E)data[idx];
+        int copyLength = data.length - idx - 1;
+        System.arraycopy(data, idx + 1, data, idx, copyLength);
+        size--;
+        return deletedItem;
+    }
+
+    public int size() {
+        return size;
     }
 }
