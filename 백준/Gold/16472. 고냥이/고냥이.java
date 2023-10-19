@@ -1,38 +1,39 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-class Main
-{
-    static int[] currentAlphabetFrequency = new int[26];
-    static int currentUniqueAlphabetCount = 0;
-
-    static void increaseFrequency(char alphabet) {
-        if (currentAlphabetFrequency[alphabet - 'a']++ == 0)
-            currentUniqueAlphabetCount++;
-    }
-
-    static void decreaseFrequency(char alphabet) {
-        if (--currentAlphabetFrequency[alphabet - 'a'] == 0)
-            currentUniqueAlphabetCount--;
-    }
-
-    public static void main (String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        int N = sc.nextInt();
-        char[] nyang = sc.next().toCharArray();
-        int nextIndex = 0;
-        int maxLength = 0;
-        for (int i = 0; i < nyang.length; i++) {
-            while (nextIndex < nyang.length) {
-                increaseFrequency(nyang[nextIndex++]);
-                if (currentUniqueAlphabetCount > N) {
-                    decreaseFrequency(nyang[--nextIndex]);
-                    break;
-                }
-            }
-            maxLength = Math.max(maxLength, nextIndex - i);
-            decreaseFrequency(nyang[i]);
-        }
-        System.out.println(maxLength);
-    }
+public class Main {
+	
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine());
+		
+		char[] arr = br.readLine().toCharArray();
+		int[] alphabet = new int[26];
+		
+		int Rpointer = 0;
+		int alphabetCount = 0;
+		int L = arr.length;
+		int ans = 0;
+		
+		for(int i=0; i<L; i++) {
+			
+			while(Rpointer < L) {
+				
+				if(alphabet[arr[Rpointer] - 'a'] == 0) alphabetCount++;
+				if(alphabetCount > N) {
+					alphabetCount--;
+					break;
+				}
+				alphabet[arr[Rpointer++] - 'a']++;
+			}
+			
+			ans = Math.max(ans, Rpointer - i);
+			
+			alphabet[arr[i] - 'a']--;
+			if(alphabet[arr[i] - 'a'] == 0) alphabetCount--;
+		}
+		
+		System.out.println(ans);
+	}
 }
