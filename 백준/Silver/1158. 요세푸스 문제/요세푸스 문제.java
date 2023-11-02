@@ -9,7 +9,7 @@ class Main
         int N = sc.nextInt();
         int K = sc.nextInt();
 
-        SimpleArrayList<Integer> list = new SimpleArrayList<>(N);
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
         for (int i = 1; i <= N; i++)
             list.add(i);
 
@@ -27,33 +27,48 @@ class Main
     }
 }
 
-class SimpleArrayList<E> {
+class SimpleLinkedList<E> {
     private int size = 0;
-    private Object[] data;
+    private Node<E> firstNode = null;
+    private Node<E> lastNode = null;
 
-    public SimpleArrayList(int initialCapacity) {
-        data = new Object[initialCapacity];
+    public static class Node<E> {
+        E item;
+        Node<E> next;
+        Node(E element, Node<E> next) {
+            this.item = element;
+            this.next = next;
+        }
     }
 
     public void add(E element) {
-        if (size == data.length)
-            growCapacity();
-        data[size++] = element;
-    }
-
-    private void growCapacity() {
-        int newCapacity = data.length + (data.length >> 1);
-        data = Arrays.copyOf(data, newCapacity);
+        Node<E> newNode = new Node<>(element, null);
+        if (size == 0) firstNode = newNode;
+        else lastNode.next = newNode;
+        lastNode = newNode;
+        size++;
     }
 
     public E remove(int idx) {
         if (idx < 0 || idx >= size)
             throw new IndexOutOfBoundsException("Index: " + idx + ", Size " + size);
-        E deletedItem = (E)data[idx];
-        int copyLength = data.length - idx - 1;
-        System.arraycopy(data, idx + 1, data, idx, copyLength);
+
+        Node<E> prevNode = null;
+        Node<E> targetNode = firstNode;
+        for (int i = 0; i < idx; i++) {
+            prevNode = targetNode;
+            targetNode = targetNode.next;
+        }
+
+        if (prevNode == null)
+            firstNode = firstNode.next;
+        else {
+            prevNode.next = targetNode.next;
+            if (prevNode.next == null)
+                lastNode = prevNode;
+        }
         size--;
-        return deletedItem;
+        return targetNode.item;
     }
 
     public int size() {
