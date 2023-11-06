@@ -1,35 +1,55 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
-class MyArrayList {
+class MyLinkedList {
 	
-	int size;
-	int[] data;
+	int size = 0;
+	Node firstNode = null;
+	Node lastNode = null;
 	
-	public MyArrayList(int initialCapacity) {
-		data = new int[initialCapacity];
-		size = 0;
+	public static class Node {
+		int item;
+		Node next;
+		
+		public Node(int item, Node next) {
+			this.item = item;
+			this.next = next;
+		}
+		
 	}
 	
 	public void add(int item) {
-		if(size == data.length)
-			growCapacity();
-		data[size++] = item;
-	}
-	
-	private void growCapacity() {
-		int newCapacity = data.length * 2;
-		data = Arrays.copyOf(data, newCapacity);
+		Node newNode = new Node(item, null);
+		if(size == 0) {
+			firstNode = newNode;
+		} else {
+			lastNode.next = newNode;
+		}
+		lastNode = newNode;
+		size++;
 	}
 	
 	public int remove(int idx) {
-		int deleteItem = data[idx];
-		System.arraycopy(data, idx + 1, data, idx, data.length - idx - 1);
+		Node prevNode = null;
+		Node targetNode = firstNode;
+		while(idx-->0) {
+			prevNode = targetNode;
+			targetNode = targetNode.next;
+		}
+		if(prevNode == null) {
+			firstNode = firstNode.next;
+		} else {
+			prevNode.next = targetNode.next;
+			if(prevNode.next == null) {
+				lastNode = prevNode;
+			}
+		}
 		size--;
-		return deleteItem;
+		return targetNode.item;
 	}
 	
 	public int size() {
@@ -40,7 +60,6 @@ class MyArrayList {
 
 public class Main {
 	
-
 	public static void main(String[] args) throws IOException{
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -49,7 +68,7 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 		
-		MyArrayList list = new MyArrayList(N);
+		MyLinkedList list = new MyLinkedList();
 		for(int i=1; i<=N; i++) list.add(i);
 		
 		int[] ans = new int[N];
