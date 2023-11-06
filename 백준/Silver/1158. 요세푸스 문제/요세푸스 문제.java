@@ -1,11 +1,45 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
+class MyArrayList {
+	
+	int size;
+	int[] data;
+	
+	public MyArrayList(int initialCapacity) {
+		data = new int[initialCapacity];
+		size = 0;
+	}
+	
+	public void add(int item) {
+		if(size == data.length)
+			growCapacity();
+		data[size++] = item;
+	}
+	
+	private void growCapacity() {
+		int newCapacity = data.length * 2;
+		data = Arrays.copyOf(data, newCapacity);
+	}
+	
+	public int remove(int idx) {
+		int deleteItem = data[idx];
+		System.arraycopy(data, idx + 1, data, idx, data.length - idx - 1);
+		size--;
+		return deleteItem;
+	}
+	
+	public int size() {
+		return this.size;
+	}
+	
+}
+
 public class Main {
+	
 
 	public static void main(String[] args) throws IOException{
 		
@@ -15,7 +49,7 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 		
-		List<Integer> list = new ArrayList<Integer>(N);
+		MyArrayList list = new MyArrayList(N);
 		for(int i=1; i<=N; i++) list.add(i);
 		
 		int[] ans = new int[N];
