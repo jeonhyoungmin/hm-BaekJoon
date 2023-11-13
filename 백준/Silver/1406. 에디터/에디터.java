@@ -1,45 +1,123 @@
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-class Main
-{
-    public static void main (String[] args) {
-        Scanner sc = new Scanner(System.in);
+class MyDoubleLinkedList {
+	
+	static int size;
+	Node firstNode;
+	Node lastNode;
+	Node last;
+	Node cursor;
+	
+	static class Node {
+		
+		Character item;
+		Node nextNode;
+		Node prevNode;
+		
+		public Node() {}
+		
+		public Node(Character item) {
+			this.item = item;
+		}
+		
+		public Node(Character item, Node nextNode) {
+			this.item = item;
+			this.nextNode = nextNode;
+		}
+		
+		public Node(Character item, Node nextNode, Node prevNode) {
+			this.item = item;
+			this.nextNode = nextNode;
+			this.prevNode = prevNode;
+		}
+		
+	}
+	
+	public MyDoubleLinkedList() {
+		this.size = 0;
+		this.firstNode = new Node();
+		this.lastNode = new Node();
+		firstNode.nextNode = lastNode;
+		lastNode.prevNode = firstNode;
+		cursor = lastNode;
+	}
+	
+	public void add(Character item) {
+		if(size == 0) {
+			Node newNode = new Node(item, lastNode, firstNode);
+			firstNode.nextNode = newNode;
+			lastNode.prevNode = newNode;
+			last = newNode;
+		} else {
+			Node newNode = new Node(item, lastNode, last);
+			last.nextNode = newNode;
+			lastNode.prevNode = newNode;
+			last = newNode;
+		}
+		size++;
+	}
+	
+	public void insert(Character item) {
+		Node newNode = new Node(item, cursor, cursor.prevNode);
+		cursor.prevNode.nextNode = newNode;
+		cursor.prevNode = newNode;
+		size++;
+	}
+	
+	public StringBuilder getData() {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		Node tempNode = firstNode.nextNode;
+		
+		while(tempNode.nextNode != null) {
+			sb.append(tempNode.item);
+			tempNode = tempNode.nextNode;
+		}
+		
+		return sb;
+	}
+	
+}
 
-        String origin = sc.next();
-        List<Character> list = new LinkedList<>();
-        for (char alp : origin.toCharArray())
-            list.add(alp);
+public class Main {
 
-        int M = sc.nextInt();
-        ListIterator<Character> it = list.listIterator(origin.length());
-        while (M-- > 0) {
-            char cmd = sc.next().charAt(0);
-            if (cmd == 'L') {
-                // 커서를 왼쪽으로 옮김, 맨 앞이면 무시
-                if (it.hasPrevious())
-                    it.previous();
-            }
-            else if (cmd == 'D') {
-                // 커서를 오른쪽으로 옮김, 맨 뒤면 무시
-                if (it.hasNext())
-                    it.next();
-            }
-            else if (cmd == 'B') {
-                // 커서 왼쪽의 문자를 삭제, 맨 앞이면 무시
-                if (it.hasPrevious()) {
-                    it.previous();
-                    it.remove();
-                }
-            }
-            else if (cmd == 'P') {
-                // 입력받은 문자를 커서 왼쪽에 추가
-                it.add(sc.next().charAt(0));
-            }
-        }
+	public static void main(String[] args) throws IOException {
 
-        StringBuilder sb = new StringBuilder();
-        for (char alp : list)
-            sb.append(alp);
-        System.out.println(sb.toString());
-    }
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String str = br.readLine();
+		
+		MyDoubleLinkedList list = new MyDoubleLinkedList();
+		for(int i=0; i<str.length(); i++) {
+			list.add(str.charAt(i));
+		}
+		
+		int M = Integer.parseInt(br.readLine());
+		for(int i=0; i<M; i++) {
+			String command = br.readLine();
+			char code = command.charAt(0);
+			if(code == 'L') {
+				if(list.cursor.prevNode != list.firstNode) list.cursor = list.cursor.prevNode;
+			}
+			if(code == 'D') {
+				if(list.cursor != list.lastNode) list.cursor = list.cursor.nextNode;
+			}
+			if(code == 'B') {
+				if(list.cursor.prevNode != list.firstNode) {
+					list.cursor.prevNode.prevNode.nextNode = list.cursor;
+					list.cursor.prevNode = list.cursor.prevNode.prevNode;
+				}
+			}
+			if(code == 'P') {
+				Character item = command.charAt(2);
+				list.insert(item);
+			}
+		}
+		
+		System.out.println(list.getData());
+		
+	}
+
 }
