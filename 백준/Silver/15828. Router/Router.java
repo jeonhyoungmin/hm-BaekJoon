@@ -12,18 +12,26 @@ public class Main {
 		
 		Queue<Integer> q = new LinkedList<>();
 		int data = Integer.parseInt(br.readLine());
+		int size = 0;
 		
 		while(data != -1) {
 			if(data > 0) {
-				q.add(data);
+				if(size != N) {
+					q.add(data);
+					size++;					
+				}
 			} else {
-				q.poll();
+				if(!q.isEmpty()) {
+					q.poll();	
+					size--;
+				}
 			}
 			data = Integer.parseInt(br.readLine());
 		}
 		
 		StringBuilder sb = new StringBuilder();
 		
+		if(q.isEmpty()) sb.append("empty");
 		while(!q.isEmpty()) {
 			sb.append(q.poll() + " ");
 		}
