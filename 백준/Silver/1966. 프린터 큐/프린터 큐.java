@@ -1,64 +1,64 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-
-	public static void main(String[] args) {
-		// testCase의 수 T
-		// N개의 문서, M 번째 위치
+	
+	static class Document<E> {
 		
-		Scanner sc = new Scanner(System.in);
+		E priority;
+		int index;
+		
+		public Document(E priority, int index) {
+			this.priority = priority;
+			this.index = index;
+		}
+		
+	}
 
-		int T = sc.nextInt();
+	public static void main(String[] args) throws IOException {
 
-		while (T-- > 0) {
-			int N = sc.nextInt(); // 문서의 개수
-			int M = sc.nextInt(); // 몇 번째 출력인지 알고 싶은 문서의 위치(0부터 시작)
-
-			// LinkedList로 Queue 구현
-			LinkedList<Integer> lq = new LinkedList<>();
-
-			// Queue에 중요도 저장
-			for (int i = 0; i < N; i++)
-				lq.offer(sc.nextInt());
-
-			int count = 0; // 몇 번째 출력인지 체크
-
-			while (!lq.isEmpty()) {
-				int beforeSize = lq.size();
-				int compare = lq.poll(); // 가장 앞에 있는 문서의 우선 순위
-				for (int i = 0; i < lq.size(); i++) {
-					// compare보다 큰 값이 하나라도 있을 경우, compare의 값을 맨 뒤로 보내기
-					if (lq.get(i) > compare ) {
-						lq.offer(compare);
-						
-						// M의 위치가 변경된다.
-						if(M == 0) {
-							M = lq.size() - 1;
-						} else {
-							M--;
-						}
-						
-						break;
-					}
-				}
-				// compare보다 큰 값이 하나도 없을 경우, count++
-				if(beforeSize != lq.size()) {
-					count++;
-					
-					// M의 위치가 변경된다.
-					if(M == 0) {
-						break;
-					} else {
-						M--;
-					}
-					
-				}
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.parseInt(br.readLine());
+		
+		while(T-->0) {
+			
+			Queue<Document<Integer>> q = new LinkedList<Document<Integer>>();
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			int N = Integer.parseInt(st.nextToken());
+			int M = Integer.parseInt(st.nextToken());
+			Integer[] existData = new Integer[N];
+			
+			st = new StringTokenizer(br.readLine());
+			for(int i=0; i<N; i++) {
+				int priority = Integer.parseInt(st.nextToken());
+				Document<Integer> doc = new Document<Integer>(priority, i);
+				q.offer(doc);
+				existData[i] = priority;
 			}
 
-			System.out.println(count);
+			 Arrays.sort(existData, Collections.reverseOrder());
+			 
+			for(int i=0; i<N; i++) {
+				
+				while(q.peek().priority != existData[i])
+					q.offer(q.poll());
+				
+				if(q.peek().index == M) {
+					System.out.println(i+1);
+					break;
+				}
+				
+				q.poll();
+				
+			}
 		}
-
+		
 	}
 
 }
