@@ -6,36 +6,37 @@ import java.util.Deque;
 
 public class Main {
 
+	public static boolean isMatch(char open, char close) {
+		if (open == '(' && close == ')')
+			return true;
+		if (open == '[' && close == ']')
+			return true;
+		return false;
+	}
+
 	public static void main(String[] args) throws IOException {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		while (true) {
 			char[] str = br.readLine().toCharArray();
-			if (str.length == 1)
+			if (str.length == 1 && str[0] == '.')
 				break;
 
 			Deque<Character> deq = new ArrayDeque<>();
 			boolean isValid = true;
 
-			for (int i = 0; i < str.length; i++) {
-				char data = str[i];
-				if (data == '(') {
-					deq.offerLast(data);
-				} else if (data == ')') {
-					if (deq.isEmpty() || deq.pollLast() != '(') {
-						isValid = false;
-						break;
-					}
-				} else if (data == '[') {
-					deq.offerLast(data);
-				} else if (data == ']') {
-					if (deq.isEmpty() || deq.pollLast() != '[') {
+			for (char ch : str) {
+				if (ch == '(' || ch == '[') {
+					deq.offerLast(ch);
+				} else if (ch == ')' || ch == ']') {
+					if (deq.isEmpty() || !isMatch(deq.pollLast(), ch)) {
 						isValid = false;
 						break;
 					}
 				}
 			}
+
 			if (!deq.isEmpty())
 				isValid = false;
 			System.out.println(isValid ? "yes" : "no");
