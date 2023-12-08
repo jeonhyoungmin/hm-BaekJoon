@@ -1,41 +1,40 @@
-import java.util.Scanner;
-import java.util.Stack;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class Main {
 
-	private static void vpsCheck(String s) {
-		Stack<Character> stack = new Stack<>();
+	public static void main(String[] args) throws IOException {
 
-		int i = 0;
-		while (i < s.length()) {
-			char c = s.charAt(i);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.parseInt(br.readLine());
 
-			if (c == '(') {
-				stack.push(c);
-			} else {
-				if (stack.size() < 1) {
-					System.out.println("NO");
-					return;
+		while (T-- > 0) {
+			Deque<Character> deq = new ArrayDeque<Character>();
+			char[] inputData = br.readLine().toCharArray();
+
+			boolean isValid = true;
+			for (int i = 0; i < inputData.length; i++) {
+				if (inputData[i] == '(') {
+					deq.offerLast('(');
+				} else {
+					if (deq.isEmpty()) {
+						isValid = false;
+						break;
+					}
+					deq.pollLast();
 				}
-				stack.pop();
 			}
-			i++;
-		}
 
-		if (stack.size() > 0) {
-			System.out.println("NO");
-		} else {
-			System.out.println("YES");
+			if (!deq.isEmpty())
+				isValid = false;
+
+			System.out.println(isValid ? "YES" : "NO");
+
 		}
 
 	}
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int T = sc.nextInt();
-
-		for(int i=0; i<T; i++) {
-			vpsCheck(sc.next());
-		}
-	}
 }
