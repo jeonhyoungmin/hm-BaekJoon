@@ -1,68 +1,37 @@
-import java.util.Scanner;
-import java.util.Stack;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class Main {
 
-	private static Stack<Integer> stack = new Stack<>();
-	
-	private static void push(int i) {
-		stack.push(i);
-	}
-	
-	private static int pop() {
-		if(stack.size() < 1) return -1;
-		return stack.pop();
-	}
-	
-	private static int size() {
-		return stack.size();
-	}
-	
-	private static int empty() {
-		if(stack.size() == 0) return 1;
-		return 0;
-	}
-	
-	private static int top() {
-		if(stack.size() < 1) return -1;
-		return stack.peek();
-	}
+	public static void main(String[] args) throws IOException {
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		
-		// 명령의 수 N
-		int N = sc.nextInt();
-		
-		// Scanner와 System.out.println을 같이 사용하면 시간 초과를 받는다
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine());
+
+		Deque<Integer> stack = new ArrayDeque<Integer>();
 		StringBuilder sb = new StringBuilder();
-		
-		for (int i = 0; i < N; i++) {
+		while (N-- > 0) {
 
-			String c = sc.next();
-
-			switch (c) {
-			case "push":
-				push(sc.nextInt());
-				break;
-
-			case "pop":
-				sb.append(pop()).append('\n');
-				break;
-
-			case "size":
-				sb.append(size()).append('\n');
-				break;
-				
-			case "empty":
-				sb.append(empty()).append('\n');
-				break;
-				
-			case "top":
-				sb.append(top()).append('\n');
-				break;
+			String[] cmd = br.readLine().split(" ");
+			if (cmd[0].equals("push")) {
+				int value = Integer.parseInt(cmd[1]);
+				stack.offerLast(value);
+			} else if (cmd[0].equals("pop")) {
+				sb.append(stack.isEmpty() ? "-1\n" : stack.pollLast() + "\n");
+			} else if (cmd[0].equals("size")) {
+				sb.append(stack.size() + "\n");
+			} else if (cmd[0].equals("empty")) {
+				sb.append(stack.isEmpty() ? "1\n" : "0\n");
+			} else if (cmd[0].equals("top")) {
+				sb.append(stack.isEmpty() ? "-1\n" : stack.peekLast() + "\n");
 			}
+
 		}
-		System.out.println(sb.toString());
+
+		System.out.println(sb);
 	}
+
 }
