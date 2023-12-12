@@ -7,18 +7,20 @@ import java.util.Deque;
 public class Main {
 
 	static class Box {
+		enum Type {BRACKET, SCORE};
+		Type type; 
+		int value;
 
-		Character ch = 'x';
-		Integer num = 0;
-
-		public Box(Character ch) {
-			this.ch = ch;
+		public Box(Type type, int value) {
+			this.type = type;
+			this.value = value;
 		}
-
-		public Box(Integer num) {
-			this.num = num;
-		}
-
+	}
+	
+	static int bracketValue(char ch) {
+		if(ch == '(' || ch == ')') return 2;
+		else if(ch == '[' || ch == ']') return 3;
+		return -1;
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -26,70 +28,38 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		char[] line = br.readLine().toCharArray();
 		Deque<Box> deq = new ArrayDeque<>();
-		int ans = 0;
 		boolean isValid = true;
 
 		for (Character ch : line) {
-			if (ch == '(') {
-				deq.offerLast(new Box(ch));
-			} else if (ch == ')') {
-				if (deq.isEmpty() || deq.peekLast().ch == '[') {
+			if (ch == '(' || ch == '[') {
+				deq.offerLast(new Box(Box.Type.BRACKET, bracketValue(ch)));
+			} else {
+					
+				int temp = 0;
+				while(!deq.isEmpty() && deq.peekLast().type == Box.Type.SCORE) {
+					temp += deq.pollLast().value;
+				}
+				
+				if(deq.isEmpty() || deq.peekLast().value != bracketValue(ch)) {
 					isValid = false;
 					break;
 				}
-				if (deq.peekLast().ch == '(') {
-					deq.pollLast();
-					if(deq.isEmpty()) ans += 2;
-					else deq.offerLast(new Box(2));
-				} else if (deq.peekLast().ch == 'x') {
-					int temp = 0;
-					while (deq.peekLast().ch != '(') {
-						temp += deq.pollLast().num;
-						if(deq.isEmpty()) {
-							isValid = false;
-							break;
-						}
-					}
-					deq.pollLast();
-					if (deq.isEmpty())
-						ans += temp * 2;
-					else
-						deq.offerLast(new Box(temp * 2));
-				}
-			} else if (ch == '[') {
-				deq.offerLast(new Box(ch));
-
-			} else if (ch == ']') {
-				if (deq.isEmpty() || deq.peekLast().ch == '(') {
-					isValid = false;
-					break;
-				}
-				if (deq.peekLast().ch == '[') {
-					deq.pollLast();
-					if(deq.isEmpty()) ans += 3;
-					else deq.offerLast(new Box(3));
-				} else if (deq.peekLast().ch == 'x') {
-					int temp = 0;
-					while (deq.peekLast().ch != '[') {
-						temp += deq.pollLast().num;
-						if(deq.isEmpty()) {
-							isValid = false;
-							break;
-						}
-					}
-					deq.pollLast();
-					if (deq.isEmpty())
-						ans += temp * 3;
-					else
-						deq.offerLast(new Box(temp * 3));
-				} 
-
+				temp = temp * bracketValue(ch);
+				if(temp == 0) temp = bracketValue(ch);
+				deq.pollLast();
+				deq.offerLast(new Box(Box.Type.SCORE, temp));
 			}
-
 		}
 		
-		if (!deq.isEmpty())
-			isValid = false;
+		int ans = 0;
+		while(!deq.isEmpty()) {
+			if(deq.peekLast().type == Box.Type.BRACKET) {
+				isValid = false;
+				break;
+			}
+			ans += deq.pollLast().value;
+		}
+		
 		System.out.println(isValid ? ans : 0);
 	}
 
