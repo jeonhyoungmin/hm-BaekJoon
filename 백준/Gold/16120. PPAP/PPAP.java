@@ -16,35 +16,36 @@ public class Main {
 		boolean isValid = true;
 		int index = -1;
 		Deque<Character> deq = new ArrayDeque<>();
+
 		while (true) {
 
 			if (++index > lineLength - 1)
 				break;
-
 			char ch = line[index];
+
 			if (ch == 'P') {
 				if (!deq.isEmpty() && deq.peekLast() == 'P')
 					ppapChk = true;
-				deq.offerLast(ch);
 			} else {
-				if(deq.isEmpty() || index + 1 > lineLength -1 ||line[index + 1] == 'A') {
+				if (deq.isEmpty() || index + 1 > lineLength - 1 || line[index + 1] == 'A') {
 					isValid = false;
 					break;
 				}
-				if(ppapChk && line[index + 1] == 'P') {
+				if (ppapChk && line[index + 1] == 'P') {
 					deq.pollLast();
 					deq.pollLast();
 					index++;
-					if(deq.isEmpty() || deq.peekLast() != 'P')
+					if (deq.isEmpty() || deq.peekLast() != 'P')
 						ppapChk = false;
-					deq.offerLast('P');
 				}
 			}
+			deq.offerLast('P');
 
 		}
-		if(isValid)
-		System.out.println(deq.size() == 1 && deq.peekLast() == 'P' ? "PPAP" : "NP");
-		else System.out.println("NP");
+		if (isValid)
+			System.out.println(deq.size() == 1? "PPAP" : "NP");
+		else
+			System.out.println("NP");
 	}
 
 }
