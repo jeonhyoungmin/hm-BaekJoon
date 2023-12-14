@@ -31,10 +31,10 @@ public class Main {
 					isValid = false;
 					break;
 				}
-				if (ppapChk && line[index + 1] == 'P') {
+				if (ppapChk) {
 					deq.pollLast();
 					deq.pollLast();
-					index++;
+					++index;
 					if (deq.isEmpty() || deq.peekLast() != 'P')
 						ppapChk = false;
 				}
@@ -42,10 +42,8 @@ public class Main {
 			deq.offerLast('P');
 
 		}
-		if (isValid && deq.size() == 1)
-			System.out.println("PPAP");
-		else
-			System.out.println("NP");
+
+		System.out.println(isValid && deq.size() == 1 ? "PPAP" : "NP");
 	}
 
 }
