@@ -21,7 +21,7 @@ public class Main {
 
 			int input = Integer.parseInt(br.readLine());
 			
-			if(stack.isEmpty() || prev < input) {
+			if(prev < input) {
 				while(num <= input) {
 					stack.offerLast(num++);
 					sb.append("+" + "\n");
