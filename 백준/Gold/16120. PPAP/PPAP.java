@@ -42,8 +42,8 @@ public class Main {
 			deq.offerLast('P');
 
 		}
-		if (isValid)
-			System.out.println(deq.size() == 1? "PPAP" : "NP");
+		if (isValid && deq.size() == 1)
+			System.out.println("PPAP");
 		else
 			System.out.println("NP");
 	}
