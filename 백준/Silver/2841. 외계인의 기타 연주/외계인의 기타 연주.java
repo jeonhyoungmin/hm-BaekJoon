@@ -16,8 +16,8 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());
 		int P = Integer.parseInt(st.nextToken());
 		
-		List<Deque<Integer>> line = new ArrayList<>(N);
-		for(int i=0; i<N; i++) line.add(new ArrayDeque<>());
+		List<Deque<Integer>> line = new ArrayList<>();
+		for(int i=0; i<7; i++) line.add(new ArrayDeque<>());
 
 		int count = 0;
 		while(N-->0) {
