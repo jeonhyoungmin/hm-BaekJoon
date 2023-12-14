@@ -35,7 +35,7 @@ public class Main {
 					deq.pollLast();
 					deq.pollLast();
 					++index;
-					if (deq.isEmpty() || deq.peekLast() != 'P')
+					if (deq.isEmpty())
 						ppapChk = false;
 				}
 			}
