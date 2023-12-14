@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 public class Main {
 
@@ -10,40 +8,18 @@ public class Main {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		char[] line = br.readLine().toCharArray();
-		int lineLength = line.length;
-
-		boolean ppapChk = false;
-		boolean isValid = true;
-		int index = -1;
-		Deque<Character> deq = new ArrayDeque<>();
-
-		while (true) {
-
-			if (++index > lineLength - 1)
-				break;
-			char ch = line[index];
-
-			if (ch == 'P') {
-				if (!deq.isEmpty() && deq.peekLast() == 'P')
-					ppapChk = true;
-			} else {
-				if (deq.isEmpty() || index + 1 > lineLength - 1 || line[index + 1] == 'A') {
-					isValid = false;
-					break;
-				}
-				if (ppapChk) {
-					deq.pollLast();
-					deq.pollLast();
-					++index;
-					if (deq.isEmpty())
-						ppapChk = false;
-				}
+		char[] stack = new char[line.length];
+		int topIndex = 0;
+		
+		for(char ch : line) {
+			stack[topIndex++] = ch;
+			if(topIndex >= 4 && stack[topIndex - 1] == 'P' && stack[topIndex - 2] == 'A' 
+					&& stack[topIndex - 3] == 'P' && stack[topIndex - 4] == 'P') {
+				topIndex -= 3;
 			}
-			deq.offerLast('P');
-
 		}
-
-		System.out.println(isValid && deq.size() == 1 ? "PPAP" : "NP");
+		
+		System.out.println(topIndex == 1 && stack[0] == 'P' ? "PPAP" : "NP");
 	}
 
 }
