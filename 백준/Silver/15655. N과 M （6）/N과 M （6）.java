@@ -27,15 +27,11 @@ public class Main {
 				.toArray();
 		Arrays.sort(arr);
 		
-		recursion(0);
+		recursion(0, 0);
 	}
 
-	static void recursion(int depth) {
+	static void recursion(int depth, int start) {
 		if(depth == M) {
-			for(int i=1; i<sentence.length; i++) {
-				if(sentence[i-1] > sentence[i])
-					return;
-			}
 			System.out.println(Arrays
 					.stream(sentence)
 					.mapToObj(String::valueOf)
@@ -44,11 +40,11 @@ public class Main {
 			return;
 		}
 		
-		for(int i=0; i<N; i++) {
+		for(int i=start; i<N; i++) {
 			if(!isUsed[i]) {
 				isUsed[i] = true;
 				sentence[depth] = arr[i];
-				recursion(depth + 1);
+				recursion(depth + 1, i + 1);
 				isUsed[i] = false;
 			}
 		}
