@@ -22,10 +22,7 @@ public class Main {
 			.mapToInt(Integer::parseInt)
 			.toArray();
 		
-		for(int i=0; i<n; i++) {
-			recursion(i, i, 0, 0);
-		}
-		
+		recursion(0, 0, 0, 0);
 		System.out.println(minCost);
 		
 	}
