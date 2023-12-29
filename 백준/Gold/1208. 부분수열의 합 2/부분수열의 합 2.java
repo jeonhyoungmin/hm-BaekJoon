@@ -1,47 +1,63 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
-class Main {
-    static int s;
-    static int[] numbers;
-    static long answer = 0;
-    public static int status = -1;
-    static final int LEFT = 0;
-    static final int RIGHT = 1;
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        s = sc.nextInt();
+public class Main { // * 다시 풀어보기 *
 
-        numbers = new int[n];
-        for(int i=0; i<n; i++) {
-            numbers[i] = sc.nextInt();
-        }
+	static int[] arr;
+	static int S;
+	static int status = -1;
+	static int LEFT = 0;
+	static int RIGHT = 1;
+	static Map<Integer, Integer> map = new HashMap<>();
+	static long ans = 0; // 답이 int 범위를 넘을 수 있음
 
-        status = LEFT;
-        solve(0, n/2, 0);
+	public static void main(String[] args) throws IOException {
 
-        status = RIGHT;
-        solve(n/2, n, 0);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		S = Integer.parseInt(st.nextToken());
 
-        if(s == 0) answer--;
-        System.out.println(answer);
-    }
-    static Map<Integer, Integer> cnt = new HashMap<>();
-    public static void solve(int index, int end, int sum) {
-        // base case
-        if(index == end) {
-            if(status == LEFT) {
-                int prev = cnt.getOrDefault(sum, 0);
-                cnt.put(sum, prev + 1);
-            } else if(status == RIGHT) {
-                answer += cnt.getOrDefault(s - sum, 0);
-            }
-            return;
-        }
-        // recursive
-        solve(index + 1, end, sum);
-        solve(index + 1, end, sum + numbers[index]);
-    }
+		arr = new int[N];
+		st = new StringTokenizer(br.readLine());
+		for (int i = 0; i < N; i++)
+			arr[i] = Integer.parseInt(st.nextToken());
+
+		status = LEFT;
+		recursion(0, N / 2, 0);
+
+		status = RIGHT;
+		recursion(N / 2, N, 0);
+		
+		if(S == 0) ans--;
+		/*
+		 * S가 0일 경우
+		 * 왼쪽에서 아무것도 고르지 않은 경우 sum=0
+		 * 오른쪽에서 아무것도 고르지 않은 경우 sum=0
+		 * 존재하지 않는 0을 선택하게 되므로 -1을 해준다.
+		*/
+		System.out.println(ans);
+	}
+
+	static void recursion(int index, int end, int sum) {
+
+		if (index == end) {
+			if (status == LEFT) {
+				int prev = map.getOrDefault(sum, 0);
+				map.put(sum, prev + 1);
+			} else if (status == RIGHT) {
+				ans += map.getOrDefault(S - sum, 0);
+			}
+			return;
+		}
+
+		recursion(index + 1, end, sum);
+		recursion(index + 1, end, sum + arr[index]);
+
+	}
+
 }
