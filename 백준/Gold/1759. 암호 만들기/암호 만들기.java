@@ -38,11 +38,7 @@ public class Main {
 	static void recursion(int start) {
 		if(index == L) {
 			if(vowelCount >= 1 && L - vowelCount >= 2) {
-				StringBuilder sb = new StringBuilder();
-				for(int i=0; i<output.length; i++) {
-					sb.append(output[i]);
-				}
-				System.out.println(sb);
+				System.out.println(output);
 			}
 			return;
 		}
