@@ -33,15 +33,11 @@ public class Main {
 
         // recursive case
         int threeD = n / 3;
-        solve(threeD, row, col);
-        solve(threeD, row, col + threeD);
-        solve(threeD, row, col + threeD + threeD);
-        solve(threeD, row + threeD, col);
-        solve(threeD, row + threeD, col + threeD);
-        solve(threeD, row + threeD, col + threeD + threeD);
-        solve(threeD, row + threeD + threeD, col);
-        solve(threeD, row + threeD + threeD, col + threeD);
-        solve(threeD, row + threeD + threeD, col + threeD + threeD);
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                solve(threeD, row + r * threeD, col + c * threeD);
+            }
+        }
     }
 
     private static boolean isSame(int n, int row, int col) {
