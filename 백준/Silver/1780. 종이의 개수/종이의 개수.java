@@ -45,9 +45,9 @@ public class Main {
     }
 
     private static boolean isSame(int n, int row, int col) {
-        for (int i = row; i < row + n; i++) {
-            for (int j = col; j < col + n; j++) {
-                if (board[row][col] != board[i][j]) return false;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[row][col] != board[row + i][col + j]) return false;
             }
         }
         return true;
