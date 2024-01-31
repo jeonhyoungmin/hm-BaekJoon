@@ -25,8 +25,8 @@ public class Main {
             table[v2][v1] = true;
         }
 
-        dfs(1);
-//        bfs();
+//        dfs(1);
+        bfs();
         System.out.println(cnt-1);
     }
 
@@ -43,11 +43,11 @@ public class Main {
     static void bfs() {
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(1);
+        visited[1] = true;
 
         while (!queue.isEmpty()) {
             int index = queue.poll();
             cnt++;
-            visited[index] = true;
             for (int i = 1; i <= n; i++) {
                 if (!visited[i] && table[index][i]) {
                     visited[i] = true;
