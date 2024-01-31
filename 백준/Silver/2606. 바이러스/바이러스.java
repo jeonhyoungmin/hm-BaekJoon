@@ -27,12 +27,12 @@ public class Main {
 
         dfs(1);
 //        bfs();
-        System.out.println(cnt);
+        System.out.println(cnt-1);
     }
 
     static void dfs(int index) {
         visited[index] = true;
-        if(index != 1) cnt++;
+        cnt++;
         for (int i = 1; i <= n; i++) {
             if (!visited[i] && table[index][i]) {
                 dfs(i);
@@ -46,7 +46,7 @@ public class Main {
 
         while (!queue.isEmpty()) {
             int index = queue.poll();
-            if(index != 1) cnt++;
+            cnt++;
             visited[index] = true;
             for (int i = 1; i <= n; i++) {
                 if (!visited[i] && table[index][i]) {
