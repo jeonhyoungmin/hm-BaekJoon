@@ -25,8 +25,8 @@ public class Main {
             table[v2][v1] = true;
         }
 
-//        dfs(1);
-        bfs();
+        dfs(1);
+//        bfs();
         System.out.println(cnt);
     }
 
